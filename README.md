@@ -1,83 +1,39 @@
-# Exercise: Claude Model Selection - Support Ticket Classifier
+# Claude Support Ticket Classifier
 
-## Objective
+A Node.js + TypeScript app that classifies customer support tickets using Anthropic's Claude API, matching each ticket to the right model for its complexity.
 
-Build a support ticket classification system that intelligently routes requests to different Claude models based on complexity.
+## What it does
 
-## Learning Goals
+| Ticket type | Model | Task |
+|---|---|---|
+| Simple | Claude Haiku | Classifies priority (LOW / MEDIUM / HIGH / URGENT) |
+| Moderate | Claude Sonnet | Extracts priority, category, key details, recommended action |
+| Complex | Claude Opus | Senior-manager analysis: root causes, impact, action plan |
 
-- Understand when to use Haiku vs Sonnet vs Opus
-- Compare model performance, cost, and latency trade-offs
-- Implement intelligent model routing based on task complexity
-- Practice using helper utilities to measure and display results
+It also runs all three models on the same ticket and compares **latency, token usage and cost**.
 
-## Project Structure
+## Results (example run)
 
-```
-src/
-├── classifier.ts     # Main exercise file (4 steps to complete)
-├── helpers.ts        # Utility functions (cost, stats, comparison)
-├── models.ts         # Model definitions & pricing
-└── sample-tickets.ts # Test data
-```
+| Model | Time | Cost |
+|---|---|---|
+| Haiku | ~1 s | $0.0001 |
+| Sonnet | ~2.6 s | $0.0019 |
+| Opus | ~24 s | $0.027 |
 
-## Setup
+**Takeaway:** Opus costs ~270× more than Haiku. Routing each task to the cheapest model that can handle it keeps quality high and costs low.
+
+## Skills
+
+TypeScript · Node.js · Claude API · Prompt Engineering · Cost/Latency Benchmarking
+
+## Run it
 
 ```bash
 npm install
-```
-
-## Authentication Setup
-
-Copy `.env.example` to `.env` (required in all environments):
-```bash
-cp .env.example .env
-```
-
-In Vocareum workspace, `ANTHROPIC_API_KEY` and `ANTHROPIC_BASE_URL` are **already configured** in your environment — the `.env` file only needs to provide `ANTHROPIC_MODEL`.
-
-For local development, also uncomment and fill in your credentials in `.env`.
-
-**Troubleshooting:**
-- **`Error: ANTHROPIC_MODEL is not set`** — make sure your `.env` file exists and contains a valid model name
-- **`Error: API key not found`** — in Vocareum this is pre-configured; locally, set `ANTHROPIC_API_KEY` and `ANTHROPIC_BASE_URL` in `.env`
-
-## Your Tasks
-
-Complete the `classifier.ts` file by implementing the four test functions:
-
-### Step 1: Haiku for Simple Classification
-- Implement `testHaiku()` function
-- Use Haiku model for fast, simple priority classification
-- Classification only: "LOW", "MEDIUM", "HIGH", or "URGENT"
-
-### Step 2: Sonnet for Detailed Analysis
-- Implement `testSonnet()` function
-- Use Sonnet for balanced quality/cost analysis
-- Extract: priority, category, details, recommended action
-
-### Step 3: Opus for Complex Reasoning
-- Implement `testOpus()` function
-- Use Opus for multi-factor reasoning
-- Provide: summary, root cause, impact assessment, action plan
-
-### Step 4: Compare Models
-- Implement `testCompare()` function
-- Run all three models on the same moderate ticket
-- Compare time, tokens, and cost using the `displayComparison()` helper
-
-## Run
-
-```bash
-# From this directory (lesson-01-model-selection/exercise/starter)
+cp .env.example .env   # add your ANTHROPIC_API_KEY
 npm start
 ```
 
-## Success Criteria
+## Credit
 
-- [ ] Step 1 completes with Haiku model
-- [ ] Step 2 completes with Sonnet model
-- [ ] Step 3 completes with Opus model
-- [ ] Step 4 shows comparison table
-- [ ] Cost calculations are accurate
-- [ ] Timing measurements are shown
+Based on an exercise from the Udacity course *Claude Code*. Starter code by Udacity; implementation by Zahra Borzoo.
